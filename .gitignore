@@ -61,3 +61,8 @@ settings_local.py
 
 # SQLite database files
 *.sqlite3
+
+# Others
+parser.out
+parsetab.py
+output.txt

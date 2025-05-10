@@ -97,7 +97,7 @@ t_AVAILABLE = r"(?:true|false)"
 t_RENTAL_PRICE = r"[0-9]+\.[0-9]{2}"
 t_TRANSMISSION = r"(?:automatic|manual)"
 t_DATE = r"[0-9]{4}-(?:0[1-9]|[1][0-1])-(?:0[1-9]|1[0-9]|2[0-9]|3[0-1])"
-t_TEXT = r"[^<]+"
+t_TEXT = r"[A-Za-z ]+"
 
 t_ignore = " \t\n"
 

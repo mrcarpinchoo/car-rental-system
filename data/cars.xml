@@ -125,8 +125,8 @@
   </car>
   <car>
     <id>009</id>
-    <brand>Mazda</brand>
-    <model>3</model>
+    <brand>Honda</brand>
+    <model>City</model>
     <year>2017</year>
     <license_plate>VWX-147</license_plate>
     <available>true</available>

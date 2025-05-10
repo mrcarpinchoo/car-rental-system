@@ -9,14 +9,13 @@ from lex import tokens
 def p_cars(p):
     "cars : CARS_O car_list CARS_C"
 
-    p[0] = p[2]  
+    p[0] = p[2]
 # end def
 
 def p_car_list(p):
     "car_list : car car_list"
 
     p[0] = p[1] + '\n' + p[2]
-
 # end def
 
 def p_car_list_empty(p):
@@ -28,8 +27,14 @@ def p_car_list_empty(p):
 def p_car(p):
     "car : CAR_O id brand model year license_plate available rental_price transmission services CAR_C"
 
-    p[0] = f"INSERT INTO cars (id, brand, model, year, license_plate, available, rental_price, transmission, services) VALUES ('{p[2]}', '{p[3]}', '{p[4]}', '{p[5]}', '{p[6]}', '{p[7]}', '{p[8]}', '{p[9]}', '{p[10]}');"
+    car_insert_stmt = f"INSERT INTO cars (id, brand, model, year, license_plate, available, rental_price, transmission)\nVALUES ('{p[2]}', '{p[3]}', '{p[4]}', '{p[5]}', '{p[6]}', '{p[7]}', '{p[8]}', '{p[9]}');"
 
+    services_inserts_stmts = "\n".join([
+        f"INSERT INTO services (car_id, date, service) VALUES ('{p[2]}', '{date}', '{service}');"
+        for (date, service) in p[10]
+    ])
+
+    p[0] = car_insert_stmt + ("\n" + services_inserts_stmts if services_inserts_stmts else "")
 # end def
 
 def p_id(p):
@@ -89,22 +94,19 @@ def p_services(p):
 def p_service_list(p):
     "service_list : service service_list"
 
-    if p[2]: p[0] = f"{p[1]}, {p[2]}"
-    else: p[0] = p[1]
-        
-    # p[0] = f"{p[1]}, {p[2]}"
+    p[0] = [p[1]] + p[2]
 # end def
 
 def p_service_list_empty(p):
     "service_list : "
 
-    p[0] = ""
+    p[0] = []
 # end def
 
 def p_service(p):
     "service : SERVICE_O date description SERVICE_C"
 
-    p[0] = f"\"{p[2]}\": \"{p[3]}\""
+    p[0] = (p[2], p[3])
 # end def
 
 def p_date(p):
@@ -135,6 +137,6 @@ with open("data/cars.xml", "r", encoding="utf-8") as file:
     result = parser.parse(clean_source)
 
     print(f"Result:\n{result}")
-    with open("output.txt", "w", encoding="utf-8") as out_file:
-        out_file.write(result)
+
+    with open("output.sql", "w", encoding="utf-8") as file: file.write(result)
 # end with

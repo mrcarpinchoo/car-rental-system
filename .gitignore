@@ -65,4 +65,4 @@ settings_local.py
 # Others
 parser.out
 parsetab.py
-output.txt
+output.sql

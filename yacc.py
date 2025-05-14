@@ -138,5 +138,8 @@ with open("data/cars.xml", "r", encoding="utf-8") as file:
 
     print(f"Result:\n{result}")
 
-    with open("output.sql", "w", encoding="utf-8") as file: file.write(result)
+    with open("output.sql", "w", encoding="utf-8") as file:
+        if result: file.write(result)
+        # end if
+    # end with
 # end with
